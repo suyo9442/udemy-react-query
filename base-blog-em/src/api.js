@@ -2,6 +2,7 @@ export async function fetchPosts(pageNum = 1) {
   const response = await fetch(
     `https://jsonplaceholder.typicode.com/posts?_limit=10&_page=${pageNum}`
   );
+	// throw new Error("You cannot have this data");
   return response.json();
 }
 
@@ -17,6 +18,8 @@ export async function deletePost(postId) {
     `https://jsonplaceholder.typicode.com/posts/${postId}`,
     { method: "DELETE" }
   );
+	
+	// throw new Error("You cannot delete this data")
   return response.json();
 }
 
