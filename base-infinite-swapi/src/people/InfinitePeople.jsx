@@ -9,9 +9,9 @@ const fetchUrl = async (url) => {
 };
 
 export function InfinitePeople() {
-	const {data, fetchNextPage, hasNextPage} = useInfiniteQuery({
+	const {data, fetchNextPage, hasNextPage, isFetching, isLoading, isError, error} = useInfiniteQuery({
 		queryKey: ["sw-people"],
-		queryFn: ({pageParam = initialUrl}) => fetch(pageParam),
+		queryFn: ({pageParam = initialUrl}) => fetchUrl(pageParam),
 		getNextPageParam: (lastPage) => {
 			// lastPage: 쿼리의 마지막 데이터
 			// fetchNextPage는 lastPage.next가 반환하는 값에 따라 동작을 달리함
@@ -19,10 +19,28 @@ export function InfinitePeople() {
 			return lastPage.next || undefined;
 		}
 	})
+	if(isLoading) return <div className="loading"> Loading... </div>;
+	if(isError) return <div> Error! {error.toString()}</div>
+	
+	console.log(data)
 
   return (
-		<InfiniteScroll>
-		
+		<InfiniteScroll
+			loadMore={() => { if(!isFetching) fetchNextPage(); }}
+			hasMore={hasNextPage}
+			initialLoad={false}
+		>
+			{
+				data.pages.map(pageData =>
+				pageData.results.map(person =>
+				<Person
+					key={person.name}
+					name={person.name}
+					hairColor={person.hair_color}
+					eyeColor={person.eye_color}
+				/>
+				))
+			}
 		</InfiniteScroll>
   );
 }
