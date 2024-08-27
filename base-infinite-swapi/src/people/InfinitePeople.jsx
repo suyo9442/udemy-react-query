@@ -22,25 +22,29 @@ export function InfinitePeople() {
 	if(isLoading) return <div className="loading"> Loading... </div>;
 	if(isError) return <div> Error! {error.toString()}</div>
 	
-	console.log(data)
+	// isFetching시 스크롤 초기화 이유? 새로운 페이지를 열 때 조기반환 되어서
+
 
   return (
-		<InfiniteScroll
-			loadMore={() => { if(!isFetching) fetchNextPage(); }}
-			hasMore={hasNextPage}
-			initialLoad={false}
-		>
-			{
-				data.pages.map(pageData =>
-				pageData.results.map(person =>
-				<Person
-					key={person.name}
-					name={person.name}
-					hairColor={person.hair_color}
-					eyeColor={person.eye_color}
-				/>
-				))
-			}
-		</InfiniteScroll>
+		<>
+			{ isFetching && <div className="loading"> Loading... </div> }
+			<InfiniteScroll
+				loadMore={() => { if(!isFetching) fetchNextPage(); }}
+				hasMore={hasNextPage}
+				initialLoad={false}
+			>
+				{
+					data.pages.map(pageData =>
+					pageData.results.map(person =>
+					<Person
+						key={person.name}
+						name={person.name}
+						hairColor={person.hair_color}
+						eyeColor={person.eye_color}
+					/>
+					))
+				}
+			</InfiniteScroll>
+		</>
   );
 }

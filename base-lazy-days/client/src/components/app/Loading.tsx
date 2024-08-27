@@ -1,9 +1,14 @@
 import { Spinner, Text } from "@chakra-ui/react";
+import { useIsFetching } from "@tanstack/react-query";
 
 export function Loading() {
-  // will use React Query `useIsFetching` to determine whether or not to display
-  const isFetching = false; // for now, just don't display
+  const isFetching = useIsFetching();
   const display = isFetching ? "inherit" : "none";
+
+  /*
+   useIsFetching: 진행중인 쿼리의 수를 반환함
+   진행중인 쿼리의 수가 없다면(fetching이 끝났다면) 로딩을 보여줌
+  */
 
   return (
     <Spinner

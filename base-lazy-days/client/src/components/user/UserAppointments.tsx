@@ -59,7 +59,6 @@ function AppointmentsTable({ userAppointments }: AppointmentsTableProps) {
 
 export function UserAppointments() {
   const { userId } = useLoginData();
-
   const userAppointments = useUserAppointments();
 
   if (!userId) {
@@ -73,7 +72,7 @@ export function UserAppointments() {
         Your Appointments
       </Heading>
       <Center>
-        {userAppointments.length > 0 ? (
+        {userAppointments?.length > 0 ? (
           <AppointmentsTable userAppointments={userAppointments} />
         ) : (
           <Link to="/Calendar">Book an appointment</Link>
