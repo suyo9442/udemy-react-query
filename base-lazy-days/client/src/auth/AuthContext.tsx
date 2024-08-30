@@ -14,11 +14,15 @@ type AuthContextValue = {
   clearLoginData: () => void;
 };
 
+// 전역에서 사용할 수 있는 context 정보 생성
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useLoginData = () => {
+	// 컨텍스트 정보 가져옴
   const authValue = useContext(AuthContext);
+	
+	// 없다면? 컨텍스트 Provider의 외부에 있는 것.
   if (!authValue) {
     throw new Error(
       "Error! AuthContext called from outside the AuthContextProvider"
